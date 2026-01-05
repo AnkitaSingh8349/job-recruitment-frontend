@@ -1,0 +1,170 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+/* PAGE */
+.page {
+  min-height: 100vh;
+  background-color: #f9fafb;
+}
+
+/* NAVBAR */
+.navbar {
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  color: #2563eb;
+}
+
+.nav-links {
+  display: none;
+  gap: 24px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #374151;
+}
+
+.nav-links a:hover {
+  color: #2563eb;
+}
+
+.nav-actions {
+  display: flex;
+  gap: 16px;
+}
+
+.signin {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.register {
+  background: #2563eb;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+/* HERO */
+.hero {
+  max-width: 1200px;
+  margin: auto;
+  padding: 80px 16px;
+  text-align: center;
+}
+
+.hero-title {
+  font-size: 32px;
+  font-weight: bold;
+  color: #1f2937;
+}
+
+.hero-title span {
+  color: #2563eb;
+}
+
+.hero-subtitle {
+  margin-top: 16px;
+  color: #6b7280;
+  font-size: 18px;
+}
+
+/* SEARCH BOX */
+.search-box {
+  margin-top: 40px;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.search-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.search-inputs input {
+  padding: 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.search-inputs button {
+  padding: 14px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.search-inputs button:hover {
+  background: #1d4ed8;
+}
+
+/* FILTERS */
+.filters {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.filters select {
+  padding: 10px 14px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+}
+
+/* RESPONSIVE (Tablet + Desktop) */
+@media (min-width: 768px) {
+
+  .nav-links {
+    display: flex;
+  }
+
+  .hero-title {
+    font-size: 44px;
+  }
+
+  .search-inputs {
+    flex-direction: row;
+  }
+
+  .search-inputs input {
+    flex: 1;
+  }
+
+  .filters {
+    justify-content: flex-start;
+  }
+}

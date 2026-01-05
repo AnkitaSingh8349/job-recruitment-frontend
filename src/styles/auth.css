@@ -1,0 +1,95 @@
+/* Login / Register switch link */
+.auth-link {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 14px;
+  color: #555;
+}
+
+.auth-link a {
+  color: #4f8cff;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.auth-link a:hover {
+  text-decoration: underline;
+}
+
+/* Common container */
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(120deg, #4f8cff, #6dd5ed);
+  font-family: Arial, sans-serif;
+}
+
+/* Card */
+.auth-card {
+  background: #ffffff;
+  width: 380px;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.auth-card h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Row for first + last name */
+.auth-row {
+  display: flex;
+  gap: 10px;
+}
+
+.auth-row input {
+  width: 50%;
+}
+
+/* Inputs */
+.auth-card input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.auth-card input:focus {
+  outline: none;
+  border-color: #4f8cff;
+}
+
+/* Button */
+.auth-card button {
+  width: 100%;
+  padding: 10px;
+  background: #4f8cff;
+  border: none;
+  color: #ffffff;
+  font-size: 15px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.auth-card button:hover {
+  background: #3b74d8;
+}
+
+/* OR text */
+.or-text {
+  text-align: center;
+  margin: 15px 0;
+  color: #666;
+}
+
+/* Google button */
+.google-btn {
+  display: flex;
+  justify-content: center;
+}
