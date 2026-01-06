@@ -1,32 +1,20 @@
-export async function loginUser(data) {
-  const response = await fetch("http://127.0.0.1:8000/api/auth/login/", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
+import axios from "axios";
 
-  const result = await response.json();
+const API = axios.create({
+  baseURL: "http://127.0.0.1:8000",
+});
 
-  if (!response.ok) {
-    throw result;
-  }
+export const registerUser = async (data) => {
+  const res = await API.post("/api/accounts/auth/register/", data);
+  return res.data;
+};
 
-  return result;
-}
+export const loginUser = async (data) => {
+  const res = await API.post("/api/accounts/auth/login/", data);
+  return res.data;
+};
 
-// ✅ ADD THIS
-export async function registerUser(data) {
-  const response = await fetch("http://127.0.0.1:8000/api/auth/register/", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
-
-  const result = await response.json();
-
-  if (!response.ok) {
-    throw result;
-  }
-
-  return result;
-}
+export const googleAuth = async (data) => {
+  const res = await API.post("/api/accounts/auth/google/", data);
+  return res.data;
+};
