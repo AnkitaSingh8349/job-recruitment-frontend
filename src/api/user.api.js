@@ -1,12 +1,12 @@
 import axios from "axios";
 
-const adminApi = axios.create({
+const userApi = axios.create({
   baseURL: "http://127.0.0.1:8000/api/",
 });
 
-adminApi.interceptors.request.use(
+userApi.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("admin_access");
+    const token = localStorage.getItem("user_access");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -15,4 +15,4 @@ adminApi.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-export default adminApi;
+export default userApi;

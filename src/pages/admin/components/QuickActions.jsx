@@ -1,16 +1,18 @@
+import { Link } from "react-router-dom";
+
 function QuickActions() {
   return (
     <div style={{ marginTop: "30px" }}>
       <h3>Quick Actions</h3>
 
       <div style={{ display: "flex", gap: "15px", marginTop: "10px" }}>
-        <a href="/admin/jobs/add" className="btn-edit">
-          + Post New Job
-        </a>
+        <Link to="/admin/jobs/add" className="btn-edit">
+          + Add Job
+        </Link>
 
-        <a href="/admin/applications" className="btn-delete">
+        <Link to="/admin/applications" className="btn-delete">
           View Applications
-        </a>
+        </Link>
       </div>
     </div>
   );

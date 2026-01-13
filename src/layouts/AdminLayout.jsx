@@ -1,23 +1,46 @@
-import { Outlet, Link, Navigate } from "react-router-dom";
-import { isAdmin, logout } from "../utils/auth";
+import { Outlet, Link, Navigate, useNavigate } from "react-router-dom";
+import { isAdmin } from "../utils/auth";
 import "../styles/admin_dashbord.css";
 
 function AdminLayout() {
+  const navigate = useNavigate();
+
+  // 🔒 Route protection
   if (!isAdmin()) {
     return <Navigate to="/login" />;
   }
+
+  // 🔥 LOGOUT HANDLER (FINAL)
+  const handleLogout = () => {
+    // JWT tokens clear
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
+
+    // Login page pe redirect
+    navigate("/login");
+  };
 
   return (
     <div className="admin-layout">
       <aside className="admin-sidebar">
         <h2>Recruiter Admin</h2>
+
         <ul>
-          <li><Link to="/admin/dashboard">Dashboard</Link></li>
-          <li><Link to="/admin/jobs">Jobs</Link></li>
-          <li><Link to="/admin/jobs/add">Add Job</Link></li>
+          <li>
+            <Link to="/admin/dashboard">Dashboard</Link>
+          </li>
+
+          <li>
+            <Link to="/admin/jobs">Jobs</Link>
+          </li>
+
+          <li>
+            <Link to="/admin/jobs/add">Add Job</Link>
+          </li>
+
           <li>
             <button
-              onClick={logout}
+              onClick={handleLogout}
               style={{
                 marginTop: "20px",
                 background: "transparent",

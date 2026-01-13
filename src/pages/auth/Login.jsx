@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser } from "../../api/auth.api";   // ✅ FIXED
+import { loginUser } from "../../api/auth.api";
 import GoogleLoginButton from "../../components/GoogleLoginButton";
 import "../../styles/auth.css";
 
@@ -12,8 +12,12 @@ function Login() {
     password: "",
   });
 
-  const handleChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,15 +30,25 @@ function Login() {
     try {
       const data = await loginUser(formData);
 
-      // ✅ SAVE TOKENS
-      localStorage.setItem("access", data.access);
-      localStorage.setItem("refresh", data.refresh);
+      // 🔥 CLEAR ANY OLD TOKENS (ADMIN / USER)
+      localStorage.clear();
+
+      // 🔥 STORE TOKENS ROLE-WISE
+      if (data.user?.role === "admin") {
+        localStorage.setItem("admin_access", data.access);
+        localStorage.setItem("admin_refresh", data.refresh);
+      } else {
+        localStorage.setItem("user_access", data.access);
+        localStorage.setItem("user_refresh", data.refresh);
+      }
+
+      // 🔥 STORE USER INFO
       localStorage.setItem("user", JSON.stringify(data.user));
 
       alert("Login successful");
 
-      // ✅ ADMIN / USER REDIRECT
-      if (data.user?.role === "admin") {
+      // 🔥 ROLE BASED REDIRECT
+      if (data.user.role === "admin") {
         navigate("/admin/dashboard");
       } else {
         navigate("/user/dashboard");

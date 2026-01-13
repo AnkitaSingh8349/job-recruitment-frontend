@@ -1,15 +1,23 @@
 import { Routes, Route } from "react-router-dom";
-import UserLayout from "./layouts/UserLayout";
 
-/* User pages */
+/* Layouts */
+import UserLayout from "./layouts/UserLayout";
+import AdminLayout from "./layouts/AdminLayout";
+
+/* Public */
 import Home from "./pages/Home";
+
+/* Auth */
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
-import ApplyJob from "./pages/admin/ApplyJob";
-import UserApplications from "./pages/admin/UserApplications";
 
-/* Admin layout & pages */
-import AdminLayout from "./layouts/AdminLayout";
+/* User pages */
+import UserDashboard from "./pages/user/UserDashboard";
+import UserApplications from "./pages/user/MyApplications";
+import JobApply from "./pages/user/components/JobApply";
+import JobDetails from "./pages/user/JobDetails";
+
+/* Admin pages */
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import Jobs from "./pages/admin/Jobs";
 import AddJob from "./pages/admin/AddJob";
@@ -19,27 +27,35 @@ import InviteInterview from "./pages/admin/InviteInterview";
 function App() {
   return (
     <Routes>
-      {/* USER LAYOUT */}
+
+      {/* PUBLIC + USER LAYOUT */}
       <Route element={<UserLayout />}>
         <Route path="/" element={<Home />} />
-        <Route path="/apply/:jobId" element={<ApplyJob />} />
-        <Route path="/applications" element={<UserApplications />} />
+        <Route path="/apply/:jobId" element={<JobApply />} />
+
+        {/* ✅ CORRECT PLACE */}
+        <Route path="/jobs/:id" element={<JobDetails />} />
       </Route>
 
-      {/* AUTH ROUTES */}
+      {/* AUTH */}
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
 
-      {/* ADMIN ROUTES */}
+      {/* USER */}
+      <Route path="/user" element={<UserLayout />}>
+        <Route path="dashboard" element={<UserDashboard />} />
+        <Route path="applications" element={<UserApplications />} />
+      </Route>
+
+      {/* ADMIN */}
       <Route path="/admin" element={<AdminLayout />}>
         <Route path="dashboard" element={<AdminDashboard />} />
         <Route path="jobs" element={<Jobs />} />
         <Route path="jobs/add" element={<AddJob />} />
-
-        {/* APPLICATION MANAGEMENT */}
         <Route path="applications" element={<AdminApplications />} />
         <Route path="applications/invite/:id" element={<InviteInterview />} />
       </Route>
+
     </Routes>
   );
 }

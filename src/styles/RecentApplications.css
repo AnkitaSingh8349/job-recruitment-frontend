@@ -1,0 +1,48 @@
+.applications-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+/* Single application row */
+.application-card {
+  background: #f9fafb;
+  border-radius: 10px;
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Job title */
+.application-card strong {
+  font-size: 15px;
+  color: #111827;
+}
+
+/* Status badge */
+.status {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+/* Status colors */
+.status.submitted {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+
+.status.shortlisted {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status.rejected {
+  background: #fee2e2;
+  color: #991b1b;
+}

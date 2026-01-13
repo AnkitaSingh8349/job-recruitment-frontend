@@ -1,0 +1,148 @@
+/* ===============================
+   DASHBOARD LAYOUT
+================================ */
+
+.dashboard-wrapper {
+  max-width: 1200px;
+  margin: auto;
+  padding: 30px 24px;
+}
+
+.dashboard-header {
+  margin-bottom: 30px;
+}
+
+.dashboard-header h2 {
+  font-size: 26px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.dashboard-header h2 span {
+  color: #2563eb;
+}
+
+.subtitle {
+  margin-top: 6px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* ===============================
+   SECTIONS
+================================ */
+
+.section {
+  margin-top: 32px;
+}
+
+/* ===============================
+   CARDS
+================================ */
+
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px 22px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+}
+
+/* ===============================
+   STATS CARDS
+================================ */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.stat-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 18px 20px;
+  border: 1px solid #e5e7eb;
+}
+
+.stat-title {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.stat-card h2 {
+  font-size: 28px;
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+/* Left color indicator (real SaaS style) */
+.stat-applied {
+  border-left: 4px solid #2563eb;
+}
+
+.stat-shortlisted {
+  border-left: 4px solid #16a34a;
+}
+
+.stat-rejected {
+  border-left: 4px solid #dc2626;
+}
+
+/* ===============================
+   BUTTONS
+================================ */
+
+.btn-primary {
+  background-color: #2563eb;
+  color: #ffffff;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #1d4ed8;
+}
+
+.btn-danger {
+  background-color: #dc2626;
+  color: #ffffff;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+}
+
+/* ===============================
+   PROFILE PROGRESS
+================================ */
+
+.progress-bar {
+  background-color: #e5e7eb;
+  height: 8px;
+  border-radius: 999px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: #16a34a;
+  border-radius: 999px;
+}
+
+/* ===============================
+   ACTION ROW
+================================ */
+
+.action-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}

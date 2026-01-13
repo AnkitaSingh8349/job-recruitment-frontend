@@ -1,30 +1,25 @@
-import { useEffect, useState } from "react";
-import { getDashboardStats } from "../services/adminApi";
-
-function StatsCards() {
-  const [stats, setStats] = useState(null);
-
-  useEffect(() => {
-    getDashboardStats().then(setStats);
-  }, []);
-
-  if (!stats) return <p>Loading...</p>;
-
-  const cards = [
-    { label: "Total Jobs", value: stats.totalJobs },
-    { label: "Total Applications", value: stats.totalApplications },
-    { label: "Shortlisted", value: stats.shortlisted },
-    { label: "Rejected", value: stats.rejected },
-  ];
-
+function StatsCards({ stats }) {
   return (
     <div className="dashboard-cards">
-      {cards.map((item, index) => (
-        <div className="dashboard-card" key={index}>
-          <h4>{item.label}</h4>
-          <p>{item.value}</p>
-        </div>
-      ))}
+      <div className="dashboard-card">
+        <h4>Total Jobs</h4>
+        <p>{stats.totalJobs}</p>
+      </div>
+
+      <div className="dashboard-card">
+        <h4>Total Applications</h4>
+        <p>{stats.totalApplications}</p>
+      </div>
+
+      <div className="dashboard-card">
+        <h4>Shortlisted</h4>
+        <p>{stats.shortlisted}</p>
+      </div>
+
+      <div className="dashboard-card">
+        <h4>Rejected</h4>
+        <p>{stats.rejected}</p>
+      </div>
     </div>
   );
 }
