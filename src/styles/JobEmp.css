@@ -1,0 +1,106 @@
+/* PAGE */
+.jobs-page {
+  padding: 24px;
+  background: #f6f8fb;
+  min-height: 100vh;
+}
+
+.page-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #1f2937;
+}
+
+/* ERROR */
+.error-text {
+  color: #dc2626;
+  margin-bottom: 16px;
+}
+
+/* GRID */
+.jobs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* CARD */
+.job-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden; /* 🔥 important */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.job-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* TITLE */
+.job-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #111827;
+  text-transform: capitalize;
+}
+
+/* DESCRIPTION (box ke andar hi rahe) */
+.job-desc {
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.5;
+  margin-bottom: 12px;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* max 4 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-word;
+}
+
+/* META INFO */
+.job-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.job-meta span {
+  background: #eef2ff;
+  color: #1e3a8a;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+/* DELETE BUTTON */
+.delete-btn {
+  margin-top: auto; /* button hamesha bottom me */
+  background: #ef4444;
+  color: #ffffff;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.delete-btn:hover {
+  background: #dc2626;
+}
+
+.delete-btn:active {
+  transform: scale(0.97);
+}

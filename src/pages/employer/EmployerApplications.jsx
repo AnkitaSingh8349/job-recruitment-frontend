@@ -5,11 +5,11 @@ import {
   inviteInterview,
   deleteApplication,
 } from "../../api/application.api";
-import "./AdminApplications.css";
+import "./EmployerApplications.css";
 
 const API = "http://127.0.0.1:8000/api";
 
-export default function AdminApplications() {
+export default function EmployerApplications() {
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
@@ -42,7 +42,7 @@ export default function AdminApplications() {
     try {
       const token = localStorage.getItem("access");
       if (!token) {
-        setErrorMsg("Not logged in. Please login as an admin.");
+        setErrorMsg("Not logged in. Please login as admin or employer.");
         setApplications([]);
         return;
       }
@@ -61,16 +61,18 @@ export default function AdminApplications() {
       }
 
       if (res.status === 403) {
-        setErrorMsg("Forbidden. Admin access required.");
+        setErrorMsg("Forbidden. Admin or Employer access required.");
         setApplications([]);
         return;
       }
 
+      // success
       const data = await res.json();
       setApplications(Array.isArray(data) ? data : []);
     } catch (err) {
-      console.error(err);
+      console.error("Fetch applications error:", err);
       setErrorMsg("Failed to load applications.");
+      setApplications([]);
     } finally {
       setLoading(false);
     }
@@ -79,6 +81,7 @@ export default function AdminApplications() {
   useEffect(() => {
     if (localStorage.getItem("access")) fetchApplications();
     else setLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // =========================
@@ -102,12 +105,14 @@ export default function AdminApplications() {
           return;
         }
 
+        // keep your existing invite payload shape (your API helper must accept this)
         await inviteInterview({
           user_id: selectedApp.user_id,
           role: selectedApp.job_title || "Interview",
           scheduled_at: scheduledAt,
           mode: mode,
           location: location,
+          message: message || "",
         });
       }
 
@@ -119,9 +124,9 @@ export default function AdminApplications() {
       setLocation("");
       setMode("online");
 
-      fetchApplications();
+      await fetchApplications();
     } catch (err) {
-      console.error(err);
+      console.error("Action error:", err);
       alert("Action failed");
     }
   };
@@ -131,11 +136,13 @@ export default function AdminApplications() {
   // =========================
   const storedUser = JSON.parse(localStorage.getItem("user") || "null");
 
+  // If no token -> ask to login
   if (!localStorage.getItem("access"))
-    return <p className="error">Please login as admin.</p>;
+    return <p className="error">Please login as admin or employer.</p>;
 
-  if (!storedUser || storedUser.role !== "admin")
-    return <p className="error">Admin access required.</p>;
+  // Allow Admin OR Employer (is_superuser OR is_staff)
+  if (!storedUser || !(storedUser.is_superuser || storedUser.is_staff))
+    return <p className="error">Admin or Employer access required.</p>;
 
   if (loading) return <p className="loading">Loading applications...</p>;
 
@@ -156,8 +163,12 @@ export default function AdminApplications() {
             <div className="application-card" key={app.id}>
               <h3>{app.job_title || "No Job Title"}</h3>
 
-              <p><strong>Name:</strong> {app.user_name || "-"}</p>
-              <p><strong>Email:</strong> {app.user_email || "-"}</p>
+              <p>
+                <strong>Name:</strong> {app.user_name || "-"}
+              </p>
+              <p>
+                <strong>Email:</strong> {app.user_email || "-"}
+              </p>
 
               <p>
                 <strong>Experience:</strong>{" "}
@@ -165,24 +176,19 @@ export default function AdminApplications() {
               </p>
 
               <p>
-                <strong>Technologies:</strong>{" "}
-                {app.technologies || "-"}
+                <strong>Technologies:</strong> {app.technologies || "-"}
               </p>
 
               <p>
                 <strong>Applied:</strong>{" "}
-                {app.applied_at
-                  ? new Date(app.applied_at).toLocaleString()
-                  : "-"}
+                {app.applied_at ? new Date(app.applied_at).toLocaleString() : "-"}
               </p>
 
-              <p><strong>Status:</strong> {app.status}</p>
+              <p>
+                <strong>Status:</strong> {app.status}
+              </p>
 
-              {app.message && (
-                <div className="admin-message">
-                  {app.message}
-                </div>
-              )}
+              {app.message && <div className="admin-message">{app.message}</div>}
 
               <div className="actions">
                 <button
@@ -222,8 +228,13 @@ export default function AdminApplications() {
                   className="delete"
                   onClick={async () => {
                     if (window.confirm("Are you sure?")) {
-                      await deleteApplication(app.id);
-                      fetchApplications();
+                      try {
+                        await deleteApplication(app.id);
+                        fetchApplications();
+                      } catch (err) {
+                        console.error("Delete error:", err);
+                        alert("Delete failed");
+                      }
                     }
                   }}
                 >
@@ -259,10 +270,7 @@ export default function AdminApplications() {
                   onChange={(e) => setScheduledAt(e.target.value)}
                 />
 
-                <select
-                  value={mode}
-                  onChange={(e) => setMode(e.target.value)}
-                >
+                <select value={mode} onChange={(e) => setMode(e.target.value)}>
                   <option value="online">Online</option>
                   <option value="onsite">Onsite</option>
                 </select>

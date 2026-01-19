@@ -1,0 +1,143 @@
+/* ================= PAGE ================= */
+.home {
+  width: 100%;
+  background: #ffffff;
+}
+
+/* ================= HERO ================= */
+.hero {
+  padding: 90px 20px 120px;
+  background: #ffffff;
+}
+
+.hero-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* ================= TITLE ================= */
+.hero-title {
+  font-size: 42px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 10px;
+}
+
+.hero-title .brand {
+  color: #2563eb;
+}
+
+.hero-sub {
+  font-size: 18px;
+  color: #6b7280;
+  margin-bottom: 40px;
+}
+
+/* ================= SEARCH CARD ================= */
+.search-card {
+  background: #ffffff;
+  padding: 28px;
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* ================= SEARCH GRID ================= */
+.search-grid {
+  display: grid;
+  grid-template-columns: 2fr 2fr auto;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+/* ================= FILTER GRID ================= */
+.filters-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+/* ================= INPUTS ================= */
+.search-grid input,
+.filters-grid select {
+  height: 52px;
+  padding: 0 16px;
+  font-size: 15px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  outline: none;
+}
+
+.search-grid input::placeholder {
+  color: #9ca3af;
+}
+
+.search-grid input:focus,
+.filters-grid select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* ================= SEARCH BUTTON ================= */
+.search-btn {
+  height: 52px;
+  padding: 0 26px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.search-btn:hover {
+  background: #1e40af;
+}
+
+/* ================= RESPONSIVE ================= */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .search-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .search-btn {
+    grid-column: span 2;
+    width: 100%;
+  }
+
+  .filters-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .hero {
+    padding: 60px 14px 90px;
+  }
+
+  .hero-title {
+    font-size: 30px;
+  }
+
+  .hero-sub {
+    font-size: 15px;
+  }
+
+  .search-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .filters-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .search-btn {
+    width: 100%;
+  }
+}

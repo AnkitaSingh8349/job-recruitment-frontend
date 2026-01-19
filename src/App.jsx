@@ -1,15 +1,26 @@
+// src/App.jsx
 import { Routes, Route } from "react-router-dom";
 
 /* Layouts */
 import UserLayout from "./layouts/UserLayout";
 import AdminLayout from "./layouts/AdminLayout";
+import EmployerLayout from "./layouts/EmployerLayout";
 
-/* Public */
+/* Pages */
 import Home from "./pages/Home";
 
 /* Auth */
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
+
+/* Employer (auth + pages) */
+import EmployerRegister from "./pages/employer/EmployerRegister";
+import Employer from "./pages/employer/Employer";
+import EmployerDashboard from "./pages/employer/EmployerDashboard";
+import EmployerAddJob from "./pages/employer/AddJob";
+import EmployerJobs from "./pages/employer/jobs";
+import EmployerApplication from "./pages/employer/EmployerApplications";
+
 
 /* User pages */
 import UserDashboard from "./pages/user/UserDashboard";
@@ -28,26 +39,31 @@ function App() {
   return (
     <Routes>
 
-      {/* PUBLIC + USER LAYOUT */}
+      {/* ================= USER LAYOUT ================= */}
       <Route element={<UserLayout />}>
         <Route path="/" element={<Home />} />
-        <Route path="/apply/:jobId" element={<JobApply />} />
-
-        {/* ✅ CORRECT PLACE */}
         <Route path="/jobs/:id" element={<JobDetails />} />
+        <Route path="/apply/:jobId" element={<JobApply />} />
+        <Route path="/user/dashboard" element={<UserDashboard />} />
+        <Route path="/user/applications" element={<UserApplications />} />
       </Route>
 
-      {/* AUTH */}
+      {/* ================= AUTH ================= */}
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
 
-      {/* USER */}
-      <Route path="/user" element={<UserLayout />}>
-        <Route path="dashboard" element={<UserDashboard />} />
-        <Route path="applications" element={<UserApplications />} />
-      </Route>
+   {/* ================= EMPLOYER ================= */}
+<Route path="/employer" element={<EmployerLayout />}>
+  <Route path="register" element={<EmployerRegister />} />
+  <Route path="dashboard" element={<EmployerDashboard />} />
+  <Route path="jobs" element={<EmployerJobs />} />
+  <Route path="add-job" element={<EmployerAddJob />} />
+  <Route path="applications" element={<EmployerApplication />} />
+  <Route path="profile" element={<Employer />} />
+</Route>
 
-      {/* ADMIN */}
+
+      {/* ================= ADMIN ================= */}
       <Route path="/admin" element={<AdminLayout />}>
         <Route path="dashboard" element={<AdminDashboard />} />
         <Route path="jobs" element={<Jobs />} />

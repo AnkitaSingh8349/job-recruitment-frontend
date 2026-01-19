@@ -20,12 +20,13 @@ function JobApply() {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
-  // 🔹 HANDLE INPUT CHANGE
+  // HANDLE INPUT CHANGE (controlled inputs)
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  // 🔹 FORM VALIDATION
+  // SIMPLE VALIDATION
   const validate = () => {
     let err = {};
 
@@ -43,16 +44,16 @@ function JobApply() {
       err.phone = "Phone must be 10 digits";
     }
 
-    if (!form.experience.trim()) {
+    if (!form.experience.toString().trim()) {
       err.experience = "Experience is required";
     }
 
-    if (!form.expected_salary.trim()) {
+    if (!form.expected_salary.toString().trim()) {
       err.expected_salary = "Expected salary is required";
     }
 
     if (!form.preferred_language.trim()) {
-      err.preferred_language = "Please select a language";
+      err.preferred_language = "Please select a technology";
     }
 
     if (!form.cover_letter.trim()) {
@@ -65,7 +66,7 @@ function JobApply() {
     return Object.keys(err).length === 0;
   };
 
-  // 🔹 SUBMIT FORM (BACKEND MATCHING)
+  // SUBMIT FORM
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!validate()) return;
@@ -75,21 +76,25 @@ function JobApply() {
     api
       .post("applications/", {
         job: jobId,
+        full_name: form.full_name,
+        email: form.email,
         phone: form.phone,
         experience_years: form.experience,
         expected_salary: form.expected_salary,
+        preferred_technology: form.preferred_language,
         cover_letter: form.cover_letter,
       })
       .then(() => {
-        alert("✅ Application submitted successfully!");
-        navigate("/user/applications");
+        navigate("/user/applications", { replace: true });
       })
       .catch((err) => {
-        if (err.response?.data === "Already applied") {
-          alert("⚠️ Aap already is job ke liye apply kar chuke ho");
+        // handle "Already applied" message from backend
+        if (err?.response?.data?.detail === "Already applied") {
+          alert("⚠️ You have already applied for this job");
+          navigate("/user/applications", { replace: true });
         } else {
-          alert("❌ Application submit nahi hui");
           console.error(err);
+          alert("❌ Application submit failed");
         }
       })
       .finally(() => setLoading(false));
@@ -99,52 +104,91 @@ function JobApply() {
     <div className="apply-container">
       <h2>Apply for Job</h2>
 
-      <form onSubmit={handleSubmit}>
+      <form className="apply-form" onSubmit={handleSubmit}>
         {/* Full Name */}
         <div className="form-group">
-          <label>Full Name</label>
-          <input name="full_name" onChange={handleChange} />
-          {errors.full_name && (
-            <p className="error-text">{errors.full_name}</p>
-          )}
+          <label htmlFor="full_name">Full Name</label>
+          <input
+            id="full_name"
+            name="full_name"
+            type="text"
+            value={form.full_name}
+            onChange={handleChange}
+            placeholder="Your full name"
+          />
+          {errors.full_name && <p className="error-text">{errors.full_name}</p>}
         </div>
 
         {/* Email */}
         <div className="form-group">
-          <label>Email</label>
-          <input name="email" onChange={handleChange} />
+          <label htmlFor="email">Email</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            value={form.email}
+            onChange={handleChange}
+            placeholder="you@example.com"
+          />
           {errors.email && <p className="error-text">{errors.email}</p>}
         </div>
 
         {/* Phone */}
         <div className="form-group">
-          <label>Phone</label>
-          <input name="phone" onChange={handleChange} />
+          <label htmlFor="phone">Phone</label>
+          <input
+            id="phone"
+            name="phone"
+            type="tel"
+            value={form.phone}
+            onChange={handleChange}
+            placeholder="10 digit phone"
+            inputMode="numeric"
+          />
           {errors.phone && <p className="error-text">{errors.phone}</p>}
         </div>
 
         {/* Experience */}
         <div className="form-group">
-          <label>Experience (Years)</label>
-          <input name="experience" onChange={handleChange} />
-          {errors.experience && (
-            <p className="error-text">{errors.experience}</p>
-          )}
+          <label htmlFor="experience">Experience (Years)</label>
+          <input
+            id="experience"
+            name="experience"
+            type="number"
+            min="0"
+            value={form.experience}
+            onChange={handleChange}
+            placeholder="e.g. 2"
+          />
+          {errors.experience && <p className="error-text">{errors.experience}</p>}
         </div>
 
         {/* Expected Salary */}
         <div className="form-group">
-          <label>Expected Salary</label>
-          <input name="expected_salary" onChange={handleChange} />
+          <label htmlFor="expected_salary">Expected Salary</label>
+          <input
+            id="expected_salary"
+            name="expected_salary"
+            type="number"
+            min="0"
+            value={form.expected_salary}
+            onChange={handleChange}
+            placeholder="expected salary"
+          />
           {errors.expected_salary && (
             <p className="error-text">{errors.expected_salary}</p>
           )}
         </div>
 
-        {/* Preferred Language */}
+        {/* Preferred Technology */}
         <div className="form-group">
-          <label>Preferred Language / Technology</label>
-          <select name="preferred_language" onChange={handleChange}>
+          <label htmlFor="preferred_language">Preferred Language / Technology</label>
+          <select
+            id="preferred_language"
+            name="preferred_language"
+            value={form.preferred_language}
+            onChange={handleChange}
+          >
             <option value="">Select</option>
             <option value="Java">Java</option>
             <option value="Python">Python</option>
@@ -157,16 +201,22 @@ function JobApply() {
           )}
         </div>
 
-        {/* Cover Letter */}
-        <div className="form-group">
-          <label>Cover Letter</label>
-          <textarea name="cover_letter" onChange={handleChange} />
+        {/* Cover Letter (full width) */}
+        <div className="form-group full-width">
+          <label htmlFor="cover_letter">Cover Letter</label>
+          <textarea
+            id="cover_letter"
+            name="cover_letter"
+            value={form.cover_letter}
+            onChange={handleChange}
+            placeholder="Write a short cover letter (min 20 characters)"
+          />
           {errors.cover_letter && (
             <p className="error-text">{errors.cover_letter}</p>
           )}
         </div>
 
-        <button className="submit-btn" disabled={loading}>
+        <button className="submit-btn" type="submit" disabled={loading}>
           {loading ? "Submitting..." : "Submit Application"}
         </button>
       </form>

@@ -1,0 +1,203 @@
+/* Navbar wrapper */
+.app-navbar {
+  height: 64px;
+  background: #111827;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  position: sticky;
+  top: 0;
+  z-index: 60;
+}
+
+/* left side (back button + logo) */
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-back {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.08);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.nav-back:hover {
+  background: rgba(255,255,255,0.03);
+}
+
+.nav-logo {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+/* right side links/buttons */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-link {
+  color: #d1d5db;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.nav-link:hover {
+  color: #fff;
+}
+
+.nav-btn {
+  background: #2563eb;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.nav-btn.danger {
+  background: #dc2626;
+}
+
+/* small screens */
+@media (max-width: 640px) {
+  .nav-logo { font-size: 16px; }
+  .nav-back { padding: 6px 8px; }
+  .nav-btn, .nav-link { font-size: 13px; padding: 7px 10px; }
+}
+/* Navbar.css - simple, clean styling */
+:root {
+  --nav-height: 64px;
+  --primary: #0b5cff;
+  --bg: #ffffff;
+  --muted: #6b7280;
+  --danger: #e03b3b;
+  --gap: 12px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.app-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--nav-height);
+  padding: 0 20px;
+  background: var(--bg);
+  border-bottom: 1px solid #e6e6e6;
+  gap: var(--gap);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-back {
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--muted);
+}
+.nav-back:hover {
+  background: #f3f4f6;
+  color: #374151;
+  border-color: #e5e7eb;
+}
+
+.nav-logo {
+  font-weight: 700;
+  font-size: 18px;
+  text-decoration: none;
+  color: #111827;
+  padding: 6px 8px;
+}
+.nav-logo.active {
+  color: var(--primary);
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: var(--muted);
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+.nav-link:hover,
+.nav-link.active {
+  color: #111827;
+  background: #f8fafc;
+  box-shadow: none;
+}
+
+.nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: var(--primary);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+.nav-btn:hover {
+  filter: brightness(0.95);
+}
+
+.nav-btn.danger,
+button.nav-btn.danger {
+  background: var(--danger);
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+@media (max-width: 720px) {
+  .app-navbar {
+    padding: 0 12px;
+    gap: 8px;
+  }
+
+  .nav-logo {
+    font-size: 16px;
+  }
+
+  .nav-right .nav-link {
+    display: none; /* keep it simple on small screens; you can replace with a burger later */
+  }
+
+  .nav-btn {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+}

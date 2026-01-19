@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import adminApi from "./services/adminApi";
-import "../../styles/Jobs.css";
-
+import adminApi from "../admin/services/adminApi";
+import "../../styles/JobEmp.css";
 function Jobs() {
   const [jobs, setJobs] = useState([]);
   const [error, setError] = useState("");

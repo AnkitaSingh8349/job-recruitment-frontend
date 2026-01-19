@@ -1,0 +1,89 @@
+/* Main container */
+.add-job-container {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 25px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading */
+.add-job-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #1f2937;
+}
+
+/* Form layout */
+.add-job-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+/* Inputs, select, textarea */
+.add-job-form input,
+.add-job-form select,
+.add-job-form textarea {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  outline: none;
+}
+
+/* Full width fields */
+.add-job-form textarea,
+.add-job-form button {
+  grid-column: span 2;
+}
+
+/* Textarea */
+.add-job-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Focus state */
+.add-job-form input:focus,
+.add-job-form select:focus,
+.add-job-form textarea:focus {
+  border-color: #2563eb;
+}
+
+/* Button */
+.add-job-form button {
+  padding: 12px;
+  font-size: 15px;
+  background-color: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.add-job-form button:hover {
+  background-color: #1e40af;
+}
+
+/* Error message */
+.error {
+  color: red;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .add-job-form {
+    grid-template-columns: 1fr;
+  }
+
+  .add-job-form textarea,
+  .add-job-form button {
+    grid-column: span 1;
+  }
+}

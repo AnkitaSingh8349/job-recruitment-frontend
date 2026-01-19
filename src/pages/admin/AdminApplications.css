@@ -1,0 +1,301 @@
+/* =========================
+   ROOT THEME (REAL PROJECT)
+========================= */
+:root {
+  --bg-page: #f4f6fb;
+  --bg-card: #ffffff;
+  --text-main: #1f2937;
+  --text-muted: #6b7280;
+
+  --primary: #2563eb;
+  --success: #16a34a;
+  --danger: #dc2626;
+  --warning: #ca8a04;
+  --neutral: #6b7280;
+
+  --border: #e5e7eb;
+  --radius: 12px;
+
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* =========================
+   PAGE LAYOUT
+========================= */
+.admin-applications {
+  padding: 40px 20px;
+  max-width: 1300px;
+  margin: auto;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, sans-serif;
+  background: var(--bg-page);
+}
+
+.admin-applications h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: var(--text-main);
+}
+
+/* =========================
+   STATUS / ALERTS
+========================= */
+.loading {
+  text-align: center;
+  font-size: 16px;
+  color: var(--text-muted);
+}
+
+.error {
+  background: #fee2e2;
+  color: var(--danger);
+  padding: 14px 16px;
+  border-radius: 8px;
+  margin-bottom: 18px;
+  font-size: 14px;
+}
+
+/* =========================
+   GRID LAYOUT
+========================= */
+.applications-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 24px;
+}
+
+/* =========================
+   APPLICATION CARD
+========================= */
+.application-card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.application-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.application-card h3 {
+  margin: 0 0 6px;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.application-card p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.application-card p strong {
+  color: var(--text-main);
+  font-weight: 500;
+}
+
+/* =========================
+   ADMIN MESSAGE
+========================= */
+.admin-message {
+  margin-top: 10px;
+  padding: 10px 12px;
+  background: #eff6ff;
+  border-left: 4px solid var(--primary);
+  font-size: 13px;
+  color: var(--text-main);
+  border-radius: 6px;
+}
+
+/* =========================
+   ACTION BUTTONS
+========================= */
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.actions button {
+  flex: 1;
+  padding: 9px 12px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease,
+    box-shadow 0.1s ease;
+}
+
+/* BUTTON VARIANTS */
+.actions .accept {
+  background: var(--success);
+  color: #fff;
+}
+
+.actions .accept:hover {
+  background: #15803d;
+}
+
+.actions .invite {
+  background: var(--primary);
+  color: #fff;
+}
+
+.actions .invite:hover {
+  background: #1d4ed8;
+}
+
+.actions .reject {
+  background: var(--danger);
+  color: #fff;
+}
+
+.actions .reject:hover {
+  background: #b91c1c;
+}
+
+.actions .delete {
+  background: #6b7280;
+  color: #fff;
+}
+
+.actions .delete:hover {
+  background: #4b5563;
+}
+
+.actions button:active {
+  transform: scale(0.97);
+}
+
+/* =========================
+   MODAL BACKDROP
+========================= */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* =========================
+   MODAL
+========================= */
+.modal {
+  background: var(--bg-card);
+  width: 420px;
+  max-width: 95%;
+  padding: 22px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  animation: fadeScale 0.2s ease;
+}
+
+@keyframes fadeScale {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal h3 {
+  margin: 0 0 14px;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+/* =========================
+   MODAL INPUTS
+========================= */
+.modal textarea,
+.modal input,
+.modal select {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  margin-bottom: 12px;
+  font-family: inherit;
+}
+
+.modal textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+.modal textarea:focus,
+.modal input:focus,
+.modal select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+/* =========================
+   MODAL ACTIONS
+========================= */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.modal-actions button {
+  padding: 8px 18px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.modal-actions button:first-child {
+  background: var(--primary);
+  color: #fff;
+}
+
+.modal-actions button:first-child:hover {
+  background: #1e40af;
+}
+
+.modal-actions button:last-child {
+  background: #e5e7eb;
+  color: var(--text-main);
+}
+
+.modal-actions button:last-child:hover {
+  background: #d1d5db;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+  .applications-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+}

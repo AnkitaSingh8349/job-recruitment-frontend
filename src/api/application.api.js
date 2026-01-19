@@ -5,9 +5,11 @@ const authHeader = () => ({
   "Content-Type": "application/json",
 });
 
-// USER APPLY
+/* =======================
+   USER APPLY JOB
+======================= */
 export async function applyJob(data) {
-  const response = await fetch(`${API}/applications/apply/`, {
+  const response = await fetch(`${API}/applications/`, {
     method: "POST",
     headers: authHeader(),
     body: JSON.stringify(data),
@@ -18,9 +20,11 @@ export async function applyJob(data) {
   return result;
 }
 
-// USER VIEW
-export async function myApplications() {
-  const response = await fetch(`${API}/applications/my/`, {
+/* =======================
+   USER VIEW APPLICATIONS
+======================= */
+export async function getMyApplications() {
+  const response = await fetch(`${API}/applications/`, {
     headers: authHeader(),
   });
 
@@ -29,29 +33,74 @@ export async function myApplications() {
   return result;
 }
 
-// ADMIN VIEW PENDING
-export async function pendingApplications() {
-  const response = await fetch(`${API}/admin/applications/pending/`, {
-    headers: authHeader(),
-  });
+/* =======================
+   ADMIN ACTIONS
+======================= */
 
-  const result = await response.json();
-  if (!response.ok) throw result;
-  return result;
-}
-
-// ADMIN INVITE
-export async function inviteInterview(appId, data) {
+/* ========= ACCEPT APPLICATION ========= */
+export async function acceptApplication(appId, message = "") {
   const response = await fetch(
-    `${API}/admin/applications/invite/${appId}/`,
+    `${API}/user/dashboard/applications/${appId}/accept/`,
     {
       method: "POST",
       headers: authHeader(),
-      body: JSON.stringify(data),
+      body: JSON.stringify({ message }),
     }
   );
 
   const result = await response.json();
   if (!response.ok) throw result;
   return result;
+}
+
+/* ========= REJECT APPLICATION ========= */
+export async function rejectApplication(appId, message) {
+  const response = await fetch(
+    `${API}/user/dashboard/applications/${appId}/reject/`,
+    {
+      method: "POST",
+      headers: authHeader(),
+      body: JSON.stringify({ message }),
+    }
+  );
+
+  const result = await response.json();
+  if (!response.ok) throw result;
+  return result;
+}
+
+/* =======================
+   ADMIN INVITE INTERVIEW
+======================= */
+export async function inviteInterview(payload) {
+  const response = await fetch(
+    `${API}/user/dashboard/admin/interview/create/`,
+    {
+      method: "POST",
+      headers: authHeader(),
+      body: JSON.stringify(payload),
+    }
+  );
+
+  const result = await response.json();
+  if (!response.ok) throw result;
+  return result;
+}
+
+/* =======================
+   DELETE APPLICATION
+======================= */
+export async function deleteApplication(appId) {
+  const response = await fetch(
+    `${API}/applications/${appId}/remove/`,
+    {
+      method: "DELETE",
+      headers: authHeader(),
+    }
+  );
+
+  if (!response.ok) {
+    const err = await response.json();
+    throw err;
+  }
 }

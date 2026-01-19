@@ -1,0 +1,116 @@
+/* Container */
+.section {
+  max-width: 720px;
+  margin: 40px auto;
+  padding: 0 16px;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* Heading */
+.section h3 {
+  margin-bottom: 16px;
+  font-size: 22px;
+  color: #1f2937; /* slate-800 */
+}
+
+/* Card */
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px 22px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  border-left: 6px solid #2563eb; /* blue */
+}
+
+/* Role */
+.card h4 {
+  margin-bottom: 12px;
+  font-size: 20px;
+  color: #111827; /* gray-900 */
+}
+
+/* Text rows */
+.card p {
+  margin: 6px 0;
+  font-size: 15px;
+  color: #374151; /* gray-700 */
+  line-height: 1.6;
+}
+
+/* Links */
+.card a {
+  color: #2563eb;
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.card a:hover {
+  text-decoration: underline;
+}
+
+/* Action buttons row */
+.action-row {
+  display: flex;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+/* Common button */
+.action-row button {
+  flex: 1;
+  padding: 12px 14px;
+  font-size: 15px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+/* Accept button */
+.btn-primary {
+  background: #16a34a; /* green */
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background: #15803d;
+}
+
+/* Reject button */
+.btn-danger {
+  background: #dc2626; /* red */
+  color: #ffffff;
+}
+
+.btn-danger:hover {
+  background: #b91c1c;
+}
+
+/* Disabled state */
+.action-row button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* =========================
+   Responsive adjustments
+========================= */
+
+@media (max-width: 640px) {
+  .card {
+    padding: 16px;
+  }
+
+  .card h4 {
+    font-size: 18px;
+  }
+
+  .section h3 {
+    font-size: 20px;
+  }
+
+  .action-row {
+    flex-direction: column;
+  }
+}

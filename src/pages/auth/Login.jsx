@@ -1,16 +1,32 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { loginUser } from "../../api/auth.api";
 import GoogleLoginButton from "../../components/GoogleLoginButton";
 import "../../styles/auth.css";
 
 function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // ================= REDIRECT HANDLING =================
+  const searchParams = new URLSearchParams(location.search);
+  const nextUrl = searchParams.get("next"); // 👈 from ?next=/apply/123
+  const redirectFromState = location.state?.from || null;
 
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  // ✅ BLOCK LOGIN PAGE IF ALREADY LOGGED IN
+  useEffect(() => {
+    const access = localStorage.getItem("access");
+    const user = localStorage.getItem("user");
+
+    if (access && user) {
+      navigate("/", { replace: true });
+    }
+  }, [navigate]);
 
   const handleChange = (e) => {
     setFormData({
@@ -30,31 +46,33 @@ function Login() {
     try {
       const data = await loginUser(formData);
 
-      // 🔥 CLEAR ANY OLD TOKENS (ADMIN / USER)
-      localStorage.clear();
-
-      // 🔥 STORE TOKENS ROLE-WISE
-      if (data.user?.role === "admin") {
-        localStorage.setItem("admin_access", data.access);
-        localStorage.setItem("admin_refresh", data.refresh);
-      } else {
-        localStorage.setItem("user_access", data.access);
-        localStorage.setItem("user_refresh", data.refresh);
-      }
-
-      // 🔥 STORE USER INFO
+      // ✅ SAVE AUTH DATA
+      localStorage.setItem("access", data.access);
+      localStorage.setItem("refresh", data.refresh);
       localStorage.setItem("user", JSON.stringify(data.user));
 
       alert("Login successful");
 
-      // 🔥 ROLE BASED REDIRECT
-      if (data.user.role === "admin") {
-        navigate("/admin/dashboard");
+      // ================= FINAL REDIRECT PRIORITY =================
+      if (nextUrl) {
+        // 🔥 APPLY FLOW (HIGHEST PRIORITY)
+        navigate(nextUrl, { replace: true });
+
+      } else if (data.user.role === "admin") {
+        navigate("/admin/dashboard", { replace: true });
+
+      } else if (data.user.role === "employer") {
+        navigate("/employer/dashboard", { replace: true });
+
+      } else if (redirectFromState) {
+        navigate(redirectFromState, { replace: true });
+
       } else {
-        navigate("/user/dashboard");
+        navigate("/user/dashboard", { replace: true });
       }
 
     } catch (err) {
+      console.error(err);
       alert(err?.detail || "Invalid credentials");
     }
   };
@@ -69,6 +87,7 @@ function Login() {
             type="email"
             name="email"
             placeholder="Email"
+            value={formData.email}
             onChange={handleChange}
             required
           />
@@ -77,6 +96,7 @@ function Login() {
             type="password"
             name="password"
             placeholder="Password"
+            value={formData.password}
             onChange={handleChange}
             required
           />

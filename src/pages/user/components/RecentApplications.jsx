@@ -1,18 +1,24 @@
 import "../../../styles/RecentApplications.css";
 import { useEffect, useState } from "react";
-import api from "../../../utils/api";
-
+import userApi from "../../../api/user.api"; // ✅ CORRECT axios
 
 function RecentApplications() {
   const [apps, setApps] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api
-      .get("user/dashboard/applications/")
-      .then((res) => setApps(res.data))
-      .catch((err) => console.error(err));
+    userApi
+      .get("applications/") // ✅ CORRECT endpoint
+      .then((res) => {
+        setApps(res.data);
+      })
+      .catch((err) => {
+        console.error("Failed to load applications", err);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
+  if (loading) return <p>Loading...</p>;
   if (!apps.length) return <p>No applications yet</p>;
 
   return (
@@ -20,9 +26,16 @@ function RecentApplications() {
       {apps.map((app) => (
         <div key={app.id} className="application-card">
           <strong>{app.job_title}</strong>
+
           <span className={`status ${app.status}`}>
             {app.status}
           </span>
+
+          {app.admin_message && (
+            <p className="admin-message">
+              {app.admin_message}
+            </p>
+          )}
         </div>
       ))}
     </div>

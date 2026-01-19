@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import adminApi from "./services/adminApi";
-import "../../styles/AddJob.css";
+import adminApi from "../admin/services/adminApi";
+import "../../styles/AddjobEmp.css";
 
 function AddJob() {
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
     title: "",
-    company_name: "",      // ✅ ADD
+    company_name: "",   // ✅ ADDED
     location: "",
     job_type: "FT",
     salary: "",
@@ -21,10 +21,7 @@ function AddJob() {
   // handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   // submit job
@@ -33,12 +30,13 @@ function AddJob() {
     setError("");
 
     try {
-      // ✅ company_name bhi backend ko ja raha hai
-      await adminApi.post("/jobs/", form);
-      navigate("/admin/jobs");
+      // send form as-is (company_name included)
+      const res = await adminApi.post("/jobs/", form);
+
+      navigate("/employer/jobs", { state: { refresh: true } });
     } catch (err) {
       console.error("CREATE JOB ERROR:", err.response?.data || err.message);
-      setError("Failed to create job. Please login again.");
+      setError("Failed to create job. Please try again.");
     }
   };
 
@@ -50,7 +48,6 @@ function AddJob() {
 
       <form onSubmit={handleSubmit} className="add-job-form">
 
-        {/* Job Title */}
         <input
           name="title"
           placeholder="Job Title"
@@ -59,7 +56,7 @@ function AddJob() {
           required
         />
 
-        {/* ✅ Company Name */}
+        {/* ✅ Company Name added */}
         <input
           name="company_name"
           placeholder="Company Name"
@@ -68,7 +65,6 @@ function AddJob() {
           required
         />
 
-        {/* Location */}
         <input
           name="location"
           placeholder="Location"
@@ -77,19 +73,13 @@ function AddJob() {
           required
         />
 
-        {/* Job Type */}
-        <select
-          name="job_type"
-          value={form.job_type}
-          onChange={handleChange}
-        >
+        <select name="job_type" value={form.job_type} onChange={handleChange}>
           <option value="FT">Full Time</option>
           <option value="PT">Part Time</option>
           <option value="CT">Contract</option>
           <option value="IN">Internship</option>
         </select>
 
-        {/* Salary */}
         <input
           name="salary"
           placeholder="Salary (Negotiable / 50k-70k)"
@@ -97,7 +87,6 @@ function AddJob() {
           onChange={handleChange}
         />
 
-        {/* Experience */}
         <input
           name="experience"
           placeholder="Experience (2-4 years / Fresher)"
@@ -105,7 +94,6 @@ function AddJob() {
           onChange={handleChange}
         />
 
-        {/* Description */}
         <textarea
           name="description"
           placeholder="Job Description"

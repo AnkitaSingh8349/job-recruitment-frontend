@@ -1,0 +1,85 @@
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.employer-register-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #2563eb, #1e3a8a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.employer-register-box {
+  background: #ffffff;
+  width: 420px;
+  padding: 32px;
+  border-radius: 10px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+.employer-register-box h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #1e293b;
+}
+
+.employer-register-box input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 14px;
+  border-radius: 6px;
+  border: 1px solid #cbd5f5;
+  font-size: 14px;
+}
+
+.employer-register-box input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+.employer-register-btn {
+  width: 100%;
+  padding: 12px;
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.employer-register-btn:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+.employer-register-footer {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.employer-register-footer a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.employer-register-footer a:hover {
+  text-decoration: underline;
+}
+
+.error-text {
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  text-align: center;
+  font-size: 14px;
+}

@@ -1,0 +1,92 @@
+/* ===== SEARCH CARD ===== */
+.search-card {
+  background: #ffffff;
+  padding: 28px;
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* ===== ROW 1 ===== */
+.search-grid {
+  display: grid;
+  grid-template-columns: 2fr 2fr auto;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+/* ===== ROW 2 ===== */
+.filters-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+/* ===== INPUTS ===== */
+.search-grid input,
+.filters-grid input,
+.filters-grid select {
+  height: 52px;
+  padding: 0 16px;
+  font-size: 15px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  outline: none;
+}
+
+.search-grid input::placeholder {
+  color: #9ca3af;
+}
+
+.search-grid input:focus,
+.filters-grid input:focus,
+.filters-grid select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* ===== BUTTON ===== */
+.search-btn {
+  height: 52px;
+  padding: 0 28px;
+  background: #2563eb;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.search-btn:hover {
+  background: #1e40af;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .search-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .search-btn {
+    grid-column: span 2;
+    width: 100%;
+  }
+
+  .filters-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .search-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .filters-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .search-btn {
+    width: 100%;
+  }
+}

@@ -1,71 +1,49 @@
-import { Outlet, Link, Navigate, useNavigate } from "react-router-dom";
+import { Outlet, Link, Navigate } from "react-router-dom";
 import { isAdmin } from "../utils/auth";
+import Navbar from "../components/Navbar";
 import "../styles/admin_dashbord.css";
 
 function AdminLayout() {
-  const navigate = useNavigate();
-
   // 🔒 Route protection
   if (!isAdmin()) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login" replace />;
   }
 
-  // 🔥 LOGOUT HANDLER (FINAL)
-  const handleLogout = () => {
-    // JWT tokens clear
-    localStorage.removeItem("access");
-    localStorage.removeItem("refresh");
-
-    // Login page pe redirect
-    navigate("/login");
-  };
-
   return (
-    <div className="admin-layout">
-      <aside className="admin-sidebar">
-        <h2>Recruiter Admin</h2>
+    <>
+      {/* ✅ GLOBAL NAVBAR (same as user & home) */}
+      <Navbar />
 
-        <ul>
-          <li>
-            <Link to="/admin/dashboard">Dashboard</Link>
-          </li>
+      <div className="admin-layout">
+        {/* SIDEBAR */}
+        <aside className="admin-sidebar">
+          <h2>Recruiter Admin</h2>
 
-          <li>
-            <Link to="/admin/jobs">Jobs</Link>
-          </li>
+          <ul>
+            <li>
+              <Link to="/admin/dashboard">Dashboard</Link>
+            </li>
 
-          <li>
-            <Link to="/admin/jobs/add">Add Job</Link>
-          </li>
+            <li>
+              <Link to="/admin/jobs">Jobs</Link>
+            </li>
 
-          <li>
-            <button
-              onClick={handleLogout}
-              style={{
-                marginTop: "20px",
-                background: "transparent",
-                border: "1px solid #475569",
-                color: "#fff",
-                padding: "8px",
-                width: "100%",
-                borderRadius: "6px",
-                cursor: "pointer",
-              }}
-            >
-              Logout
-            </button>
-          </li>
-        </ul>
-      </aside>
+            <li>
+              <Link to="/admin/jobs/add">Add Job</Link>
+            </li>
 
-      <main className="admin-main">
-        <div className="admin-topbar">
-          <h3>Admin Dashboard</h3>
-        </div>
+            <li>
+              <Link to="/admin/applications">Applications</Link>
+            </li>
+          </ul>
+        </aside>
 
-        <Outlet />
-      </main>
-    </div>
+        {/* MAIN CONTENT */}
+        <main className="admin-main">
+          <Outlet />
+        </main>
+      </div>
+    </>
   );
 }
 

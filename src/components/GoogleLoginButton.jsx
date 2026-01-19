@@ -1,13 +1,16 @@
 import { GoogleLogin } from "@react-oauth/google";
+import { useNavigate } from "react-router-dom";
 
 function GoogleLoginButton() {
+  const navigate = useNavigate();
 
   const handleGoogleSuccess = async (res) => {
-    console.log("✅ GOOGLE ID TOKEN:", res.credential);
-
     try {
+      const API_URL =
+        import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000";
+
       const response = await fetch(
-        "http://127.0.0.1:8000/api/accounts/auth/google/",
+        `${API_URL}/api/accounts/auth/google/`,
         {
           method: "POST",
           headers: {
@@ -21,28 +24,28 @@ function GoogleLoginButton() {
 
       const data = await response.json();
 
-      if (!response.ok) {
-        throw data;
-      }
+      if (!response.ok) throw data;
 
-      // ✅ SAVE JWT TOKENS
+      // ✅ Store tokens
       localStorage.setItem("access", data.access);
       localStorage.setItem("refresh", data.refresh);
+      localStorage.setItem("user", JSON.stringify(data.user));
 
-      alert("Google login successful");
+      // Redirect
+      data.user?.role === "admin"
+        ? navigate("/admin/dashboard")
+        : navigate("/user/dashboard");
 
     } catch (err) {
       console.error("Google login error:", err);
-      alert(err?.detail || "Google login failed");
+      alert(`Login Failed: ${err?.detail || "Unknown error"}`);
     }
   };
 
   return (
     <GoogleLogin
       onSuccess={handleGoogleSuccess}
-      onError={() => {
-        console.log("❌ Google Login Failed");
-      }}
+      onError={() => alert("Google Login Failed")}
     />
   );
 }
