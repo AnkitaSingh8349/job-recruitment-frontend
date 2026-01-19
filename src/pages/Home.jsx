@@ -1,4 +1,4 @@
-import "./Home.css";
+import "./home.css";
 import AjxSearch from "../ajx_search/AjxSearch";
 
 function Home() {
