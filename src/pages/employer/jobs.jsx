@@ -1,26 +1,51 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import adminApi from "../admin/services/adminApi";
 import "../../styles/JobEmp.css";
+
 function Jobs() {
   const [jobs, setJobs] = useState([]);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
 
+  // 🔹 URL se filter read karo
+  const [searchParams] = useSearchParams();
+  const filter = searchParams.get("filter"); 
+  // filter = expired | expiring | active | null
+
+  // ============================
+  // FETCH JOBS (FILTER AWARE)
+  // ============================
   useEffect(() => {
     fetchJobs();
-  }, []);
+  }, [filter]);
 
   const fetchJobs = async () => {
     try {
-      const res = await adminApi.get("/jobs/");
+      setLoading(true);
+      let url = "/employer/jobs/";
+
+      // ✅ filter backend ko bhejo
+      if (filter) {
+        url += `?filter=${filter}`;
+      }
+
+      const res = await adminApi.get(url);
       setJobs(res.data);
+      setError("");
     } catch (err) {
       console.error(err);
       setError("Failed to load jobs");
+    } finally {
+      setLoading(false);
     }
   };
 
+  // ============================
+  // DELETE JOB
+  // ============================
   const deleteJob = async (id) => {
-    if (!window.confirm("Are you sure?")) return;
+    if (!window.confirm("Are you sure you want to delete this job?")) return;
 
     try {
       await adminApi.delete(`/jobs/${id}/`);
@@ -31,23 +56,18 @@ function Jobs() {
     }
   };
 
-  // helper to show company name safely with fallbacks
+  // ============================
+  // HELPERS
+  // ============================
   const getCompanyName = (job) => {
-    // Preferred: serializer provides `company_name`
     if (job.company_name) return job.company_name;
-
-    // If API returned company as object: { company: { name: "..." } }
     if (job.company && typeof job.company === "object" && job.company.name) {
       return job.company.name;
     }
-
-    // If API returned company as plain string or ID
     if (job.company) return job.company;
-
     return "Unknown Company";
   };
 
-  // optional: format created_at/hiring date if available
   const formatDate = (iso) => {
     if (!iso) return "N/A";
     try {
@@ -57,18 +77,36 @@ function Jobs() {
     }
   };
 
+  // ============================
+  // EMPTY MESSAGE BASED ON FILTER
+  // ============================
+  const renderEmptyMessage = () => {
+    if (filter === "expired") return "No expired jobs found.";
+    if (filter === "expiring") return "No jobs expiring in next 5 days.";
+    if (filter === "active") return "No active jobs found.";
+    return "No jobs posted yet.";
+  };
+
+  // ============================
+  // UI
+  // ============================
   return (
     <div className="jobs-page">
-      <h2 className="page-title">All Jobs</h2>
+      <h2 className="page-title">My Jobs</h2>
+
+      {loading && <p style={{ padding: "20px" }}>Loading jobs...</p>}
 
       {error && <p className="error-text">{error}</p>}
+
+      {!loading && !error && jobs.length === 0 && (
+        <p style={{ padding: "20px" }}>{renderEmptyMessage()}</p>
+      )}
 
       <div className="jobs-grid">
         {jobs.map((job) => (
           <div key={job.id} className="job-card">
             <h3 className="job-title">{job.title}</h3>
 
-            {/* COMPANY NAME - ADDED */}
             <p className="job-company">
               <b>Company:</b> {getCompanyName(job)}
             </p>
@@ -86,11 +124,18 @@ function Jobs() {
                 <b>Experience:</b> {job.experience ?? "N/A"} years
               </span>
               <span>
-                <b>Hiring Date:</b> {formatDate(job.created_at)}
+                <b>Posted On:</b> {formatDate(job.created_at)}
+              </span>
+              <span>
+                <b>Expires On:</b>{" "}
+                {job.expiry_date ? formatDate(job.expiry_date) : "No expiry"}
               </span>
             </div>
 
-            <button className="delete-btn" onClick={() => deleteJob(job.id)}>
+            <button
+              className="delete-btn"
+              onClick={() => deleteJob(job.id)}
+            >
               Delete
             </button>
           </div>

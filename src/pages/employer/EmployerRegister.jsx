@@ -1,19 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { registerEmployer } from "../../api/employer.api";
 import "../../styles/employerRegister.css";
 
 const EmployerRegister = () => {
+  const navigate = useNavigate();
+
+  /* ================= AUTH CHECK (IMPORTANT FIX) ================= */
+ useEffect(() => {
+  const token = localStorage.getItem("access");
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  if (token && user) {
+    if (user.role === "employer") {
+      navigate("/employer/dashboard", { replace: true });
+    } else {
+      navigate("/", { replace: true });
+    }
+  }
+}, [navigate]);
+
+  /* ================= STATES ================= */
   const [companyName, setCompanyName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
   const [loading, setLoading] = useState(false);
 
+  /* ================= SUBMIT HANDLER ================= */
   const submitHandler = async (e) => {
     e.preventDefault();
     setErrorMsg("");
+    setSuccessMsg("");
 
-    /* ================= FRONTEND VALIDATION ================= */
+    // Frontend validation
     if (!companyName || !email || !password) {
       setErrorMsg("All fields are required");
       return;
@@ -33,14 +54,18 @@ const EmployerRegister = () => {
         password: password,
       });
 
-      alert("Employer registered successfully");
+      setSuccessMsg("Employer registered successfully");
 
       setCompanyName("");
       setEmail("");
       setPassword("");
 
+      // Redirect same as login flow
+      setTimeout(() => {
+        navigate("/employer/dashboard", { replace: true });
+      }, 800);
+
     } catch (error) {
-      /* ================= BACKEND VALIDATION ================= */
       if (error.response && error.response.data) {
         const data = error.response.data;
 
@@ -59,11 +84,13 @@ const EmployerRegister = () => {
     }
   };
 
+  /* ================= JSX ================= */
   return (
     <div className="employer-register-container">
       <div className="employer-register-box">
         <h2>Employer Register</h2>
 
+        {successMsg && <p style={{ color: "green" }}>{successMsg}</p>}
         {errorMsg && <p className="error-text">{errorMsg}</p>}
 
         <form onSubmit={submitHandler}>
@@ -72,7 +99,6 @@ const EmployerRegister = () => {
             placeholder="Company Name"
             value={companyName}
             onChange={(e) => setCompanyName(e.target.value)}
-            required
           />
 
           <input
@@ -80,7 +106,6 @@ const EmployerRegister = () => {
             placeholder="Email Address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required
           />
 
           <input
@@ -88,7 +113,6 @@ const EmployerRegister = () => {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
           />
 
           <button
@@ -101,7 +125,7 @@ const EmployerRegister = () => {
         </form>
 
         <div className="employer-register-footer">
-          Already registered? <a href="/login">Login</a>
+          Already registered? <Link to="/login">Login</Link>
         </div>
       </div>
     </div>

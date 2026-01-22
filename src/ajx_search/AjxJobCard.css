@@ -1,72 +1,121 @@
-.job-card {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 20px 24px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+/* ===== GRID ===== */
+.job-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
 }
 
-.job-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+/* ===== CARD ===== */
+.emp-job-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.job-title {
-  font-size: 20px;
-  font-weight: 600;
-  color: #1f2937;
-  margin-bottom: 8px;
+/* ===== TITLE ===== */
+.emp-job-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
 }
 
-.job-company {
-  font-size: 16px;
-  font-weight: 500;
-  color: #2563eb;
-  margin-bottom: 6px;
-}
-
-.job-location {
+/* ===== COMPANY ===== */
+.emp-company {
   font-size: 14px;
-  color: #6b7280;
-  margin-bottom: 14px;
+  color: #1e293b;
 }
 
-.job-details {
+.icon-blue {
+  color: #2563eb;
+  margin-right: 6px;
+}
+
+/* ===== SKILL / DESC ===== */
+.emp-skill {
+  font-size: 14px;
+  color: #2563eb;
+  font-weight: 500;
+}
+
+/* ===== TAGS ===== */
+.emp-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px 20px;
-  margin-bottom: 16px;
+  gap: 8px;
 }
 
-.job-badge {
-  background: #f1f5f9;
-  color: #374151;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 13px;
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
   font-weight: 500;
 }
 
-.job-date {
-  font-size: 13px;
-  color: #6b7280;
-  margin-bottom: 16px;
+/* Colorful tags */
+.tag.blue {
+  background: #e0e7ff;
+  color: #1e40af;
 }
 
-.apply-btn {
+.tag.green {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.tag.purple {
+  background: #ede9fe;
+  color: #5b21b6;
+}
+
+.tag.orange {
+  background: #ffedd5;
+  color: #9a3412;
+}
+
+/* ===== APPLY BUTTON ===== */
+.apply-btn.full {
+  margin-top: auto;
   background: #2563eb;
-  color: #ffffff;
+  color: white;
   border: none;
-  padding: 10px 18px;
-  font-size: 14px;
+  padding: 10px;
+  border-radius: 10px;
   font-weight: 600;
-  border-radius: 8px;
   cursor: pointer;
-  transition: background 0.2s ease;
 }
 
-.apply-btn:hover {
-  background: #1d4ed8;
+.apply-btn.full:hover {
+  background: #1e40af;
+}
+/* ===== FORCE SIDE BY SIDE FIX ===== */
+.job-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+/* IMPORTANT: card full width na le */
+.emp-job-card {
+  width: auto !important;
+  max-width: none !important;
+}
+
+/* responsive */
+@media (max-width: 1024px) {
+  .job-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .job-grid {
+    grid-template-columns: 1fr;
+  }
 }

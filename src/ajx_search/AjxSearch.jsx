@@ -21,37 +21,105 @@ const AjxSearch = () => {
     setShowGoogle(false);
     setNoMatch(false);
 
-    const payload = {
-      query: searchText,
-      filters: {
-        location,
-        job_type,
-        work_mode,
-        experience,
-        salary,
-      },
-    };
-
     try {
       const res = await fetch("http://127.0.0.1:8000/api/ai-search/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({
+          query: searchText,
+          filters: {
+            location,
+            job_type,
+            work_mode,
+            experience,
+            salary,
+          },
+        }),
       });
 
       const data = await res.json();
 
       if (data.jobs_found && data.jobs.length > 0) {
-        setJobs(data.jobs);
+        const filteredJobs = data.jobs.filter((job) => {
+          let matched = false;
+
+          // 🔍 SEARCH TEXT
+          if (searchText) {
+            const text = searchText.toLowerCase();
+            const title = (
+              job.title ||
+              job.job_title ||
+              job.name ||
+              ""
+            ).toLowerCase();
+            const company = (job.company_name || "").toLowerCase();
+
+            if (title.includes(text) || company.includes(text)) {
+              matched = true;
+            }
+          }
+
+          // 📍 LOCATION
+          if (location && job.location) {
+            if (job.location.toLowerCase().includes(location.toLowerCase())) {
+              matched = true;
+            }
+          }
+
+          // 🕒 JOB TYPE
+          if (job_type) {
+            const type = (
+              job.job_type ||
+              job.employment_type ||
+              ""
+            ).toLowerCase();
+
+            if (
+              (job_type === "full_time" && type.includes("full")) ||
+              (job_type === "part_time" && type.includes("part")) ||
+              (job_type === "internship" && type.includes("intern"))
+            ) {
+              matched = true;
+            }
+          }
+
+          // 🏠 WORK MODE
+          if (work_mode && job.work_mode) {
+            if (job.work_mode.toLowerCase() === work_mode.toLowerCase()) {
+              matched = true;
+            }
+          }
+
+          // 🎓 EXPERIENCE
+          if (experience && job.experience !== undefined) {
+            const exp = parseInt(job.experience);
+            if (!isNaN(exp) && exp >= Number(experience)) {
+              matched = true;
+            }
+          }
+
+          // 💰 SALARY
+          if (salary && job.salary !== undefined) {
+            const sal = parseInt(
+              job.salary.toString().replace(/,/g, "")
+            );
+            if (!isNaN(sal) && sal >= Number(salary)) {
+              matched = true;
+            }
+          }
+
+          return matched;
+        });
+
+        if (filteredJobs.length === 0) {
+          setNoMatch(true);
+        } else {
+          setJobs(filteredJobs);
+        }
         return;
       }
 
-      if (data.jobs_found === true && data.jobs.length === 0) {
-        setNoMatch(true);
-        return;
-      }
-
-      setShowGoogle(true);
+      setNoMatch(true);
     } catch (err) {
       console.error("Search error", err);
       setShowGoogle(true);
@@ -62,6 +130,7 @@ const AjxSearch = () => {
 
   return (
     <>
+      {/* ================= SEARCH ================= */}
       <div className="search-card">
         <div className="search-grid">
           <input
@@ -102,15 +171,16 @@ const AjxSearch = () => {
             <option value="hybrid">Hybrid</option>
           </select>
 
-          <select value={experience} onChange={(e) => setExperience(e.target.value)}>
+          <select
+            value={experience}
+            onChange={(e) => setExperience(e.target.value)}
+          >
             <option value="">Experience</option>
             <option value="0">Fresher</option>
             <option value="1">1+ Year</option>
             <option value="2">2+ Years</option>
             <option value="3">3+ Years</option>
             <option value="5">5+ Years</option>
-            <option value="7">7+ Years</option>
-            <option value="10">10+ Years</option>
           </select>
 
           <select value={salary} onChange={(e) => setSalary(e.target.value)}>
@@ -124,9 +194,13 @@ const AjxSearch = () => {
         </div>
       </div>
 
+      {/* ================= RESULTS ================= */}
       <div style={{ marginTop: 30 }}>
-        {jobs.length > 0 &&
-          jobs.map((job) => <AjxJobCard key={job.id} job={job} />)}
+        <div className="job-grid">
+          {jobs.map((job) => (
+            <AjxJobCard key={job.id} job={job} />
+          ))}
+        </div>
 
         {noMatch && (
           <p style={{ textAlign: "center", color: "#ff9800" }}>

@@ -66,7 +66,6 @@ export default function EmployerApplications() {
         return;
       }
 
-      // success
       const data = await res.json();
       setApplications(Array.isArray(data) ? data : []);
     } catch (err) {
@@ -105,7 +104,6 @@ export default function EmployerApplications() {
           return;
         }
 
-        // keep your existing invite payload shape (your API helper must accept this)
         await inviteInterview({
           user_id: selectedApp.user_id,
           role: selectedApp.job_title || "Interview",
@@ -136,12 +134,14 @@ export default function EmployerApplications() {
   // =========================
   const storedUser = JSON.parse(localStorage.getItem("user") || "null");
 
-  // If no token -> ask to login
   if (!localStorage.getItem("access"))
     return <p className="error">Please login as admin or employer.</p>;
 
-  // Allow Admin OR Employer (is_superuser OR is_staff)
-  if (!storedUser || !(storedUser.is_superuser || storedUser.is_staff))
+  // ✅ FIXED: Admin OR Employer (ROLE BASED, NOT is_staff)
+  if (
+    !storedUser ||
+    !(storedUser.is_superuser || storedUser.role === "employer")
+  )
     return <p className="error">Admin or Employer access required.</p>;
 
   if (loading) return <p className="loading">Loading applications...</p>;
@@ -181,14 +181,18 @@ export default function EmployerApplications() {
 
               <p>
                 <strong>Applied:</strong>{" "}
-                {app.applied_at ? new Date(app.applied_at).toLocaleString() : "-"}
+                {app.applied_at
+                  ? new Date(app.applied_at).toLocaleString()
+                  : "-"}
               </p>
 
               <p>
                 <strong>Status:</strong> {app.status}
               </p>
 
-              {app.message && <div className="admin-message">{app.message}</div>}
+              {app.message && (
+                <div className="admin-message">{app.message}</div>
+              )}
 
               <div className="actions">
                 <button

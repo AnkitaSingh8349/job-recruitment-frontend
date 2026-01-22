@@ -1,5 +1,4 @@
 import API from "./auth.api";
-
 /* =========================
    EMPLOYER AUTH
 ========================= */
@@ -16,21 +15,6 @@ export const getEmployerProfile = async () => {
   return res.data;
 };
 
-/* =========================
-   EMPLOYER DASHBOARD
-========================= */
-
-// Dashboard Stats
-export const getEmployerDashboardStats = async () => {
-  const res = await API.get("/api/employer/dashboard/stats/");
-  return res.data;
-};
-
-// Recent Jobs (Dashboard)
-export const getEmployerRecentJobs = async () => {
-  const res = await API.get("/api/employer/jobs/recent/");
-  return res.data;
-};
 
 /* =========================
    JOB MANAGEMENT

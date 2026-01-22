@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { registerUser } from "../../api/auth.api";   // ✅ FIXED
+import { registerUser } from "../../api/auth.api";
 import GoogleLoginButton from "../../components/GoogleLoginButton";
 import "../../styles/auth.css";
 
@@ -14,19 +14,28 @@ function Register() {
     password: "",
   });
 
+  // ✅ MESSAGE STATES (ONLY UI)
+  const [errorMsg, setErrorMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
+
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // clear old messages
+    setErrorMsg("");
+    setSuccessMsg("");
+
+    // ❌ alert → ✅ message (SAME validation)
     if (!formData.email.includes("@")) {
-      alert("Enter valid email");
+      setErrorMsg("Enter valid email");
       return;
     }
 
     if (formData.password.length < 6) {
-      alert("Password must be at least 6 characters");
+      setErrorMsg("Password must be at least 6 characters");
       return;
     }
 
@@ -41,22 +50,40 @@ function Register() {
     try {
       const data = await registerUser(payload);
 
-      // ✅ SAVE TOKENS
+      // ✅ SAVE TOKENS (SAME)
       localStorage.setItem("access", data.access);
       localStorage.setItem("refresh", data.refresh);
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      alert("Registration successful");
+      // ❌ alert → ✅ message
+      setSuccessMsg("Registration successful");
 
-      // ✅ Redirect after register
-      if (data.user?.role === "admin") {
-        navigate("/admin/dashboard");
-      } else {
-        navigate("/user/dashboard");
-      }
+      // ✅ SAME REDIRECT LOGIC
+      setTimeout(() => {
+        if (data.user?.role === "admin") {
+          navigate("/admin/dashboard", { replace: true });
+        } else {
+          navigate("/user/dashboard", { replace: true });
+        }
+      }, 800);
 
     } catch (err) {
-      alert(err?.detail || "Registration failed");
+      // ✅ BACKEND VALIDATION (email already exists, etc.)
+      if (err.response && err.response.data) {
+        const data = err.response.data;
+
+        if (data.email) {
+          setErrorMsg(data.email[0]); // email already exists
+        } else if (data.username) {
+          setErrorMsg(data.username[0]);
+        } else if (data.detail) {
+          setErrorMsg(data.detail);
+        } else {
+          setErrorMsg("Registration failed");
+        }
+      } else {
+        setErrorMsg("Server error. Please try again.");
+      }
     }
   };
 
@@ -64,6 +91,19 @@ function Register() {
     <div className="auth-container">
       <div className="auth-card">
         <h2>Create an Account</h2>
+
+        {/* ✅ MESSAGE UI */}
+        {successMsg && (
+          <p style={{ color: "green", marginBottom: "10px" }}>
+            {successMsg}
+          </p>
+        )}
+
+        {errorMsg && (
+          <p style={{ color: "red", marginBottom: "10px" }}>
+            {errorMsg}
+          </p>
+        )}
 
         <form onSubmit={handleSubmit}>
           <div className="auth-row">

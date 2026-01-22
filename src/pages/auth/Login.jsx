@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation, Navigate } from "react-router-dom";
 import { loginUser } from "../../api/auth.api";
 import GoogleLoginButton from "../../components/GoogleLoginButton";
 import "../../styles/auth.css";
@@ -8,25 +8,34 @@ function Login() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // ================= REDIRECT HANDLING =================
+  /* ================= REDIRECT HANDLING ================= */
   const searchParams = new URLSearchParams(location.search);
-  const nextUrl = searchParams.get("next"); // 👈 from ?next=/apply/123
+  const nextUrl = searchParams.get("next"); // ?next=/apply/123
   const redirectFromState = location.state?.from || null;
 
+  /* ================= AUTH CHECK ================= */
+  const access = localStorage.getItem("access");
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  // ✅ BLOCK LOGIN PAGE IF ALREADY LOGGED IN
+  if (access && user) {
+    if (user.role === "admin") {
+      return <Navigate to="/admin/dashboard" replace />;
+    }
+    if (user.role === "employer") {
+      return <Navigate to="/employer/dashboard" replace />;
+    }
+    return <Navigate to="/user/dashboard" replace />;
+  }
+
+  /* ================= FORM STATE ================= */
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  // ✅ BLOCK LOGIN PAGE IF ALREADY LOGGED IN
-  useEffect(() => {
-    const access = localStorage.getItem("access");
-    const user = localStorage.getItem("user");
-
-    if (access && user) {
-      navigate("/", { replace: true });
-    }
-  }, [navigate]);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e) => {
     setFormData({
@@ -35,52 +44,66 @@ function Login() {
     });
   };
 
+  /* ================= SUBMIT ================= */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setSuccessMessage("");
+    setErrorMessage("");
+
     if (!formData.email || !formData.password) {
-      alert("Email and password required");
+      setErrorMessage("Email and password required");
       return;
     }
 
     try {
       const data = await loginUser(formData);
 
-      // ✅ SAVE AUTH DATA
+      /* ✅ SAVE AUTH DATA */
       localStorage.setItem("access", data.access);
       localStorage.setItem("refresh", data.refresh);
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      alert("Login successful");
+      setSuccessMessage("Login successful");
 
-      // ================= FINAL REDIRECT PRIORITY =================
-      if (nextUrl) {
-        // 🔥 APPLY FLOW (HIGHEST PRIORITY)
-        navigate(nextUrl, { replace: true });
-
-      } else if (data.user.role === "admin") {
-        navigate("/admin/dashboard", { replace: true });
-
-      } else if (data.user.role === "employer") {
-        navigate("/employer/dashboard", { replace: true });
-
-      } else if (redirectFromState) {
-        navigate(redirectFromState, { replace: true });
-
-      } else {
-        navigate("/user/dashboard", { replace: true });
-      }
+      /* ================= FINAL REDIRECT PRIORITY ================= */
+      setTimeout(() => {
+        if (nextUrl) {
+          navigate(nextUrl, { replace: true });
+        } else if (data.user.role === "admin") {
+          navigate("/admin/dashboard", { replace: true });
+        } else if (data.user.role === "employer") {
+          navigate("/employer/dashboard", { replace: true });
+        } else if (redirectFromState) {
+          navigate(redirectFromState, { replace: true });
+        } else {
+          navigate("/user/dashboard", { replace: true });
+        }
+      }, 500);
 
     } catch (err) {
       console.error(err);
-      alert(err?.detail || "Invalid credentials");
+      setErrorMessage(err?.detail || "Invalid credentials");
     }
   };
 
+  /* ================= UI ================= */
   return (
     <div className="auth-container">
       <div className="auth-card">
         <h2>Login</h2>
+
+        {successMessage && (
+          <p style={{ color: "green", marginBottom: "10px" }}>
+            {successMessage}
+          </p>
+        )}
+
+        {errorMessage && (
+          <p style={{ color: "red", marginBottom: "10px" }}>
+            {errorMessage}
+          </p>
+        )}
 
         <form onSubmit={handleSubmit}>
           <input

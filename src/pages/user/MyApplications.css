@@ -1,223 +1,193 @@
-:root {
-  --bg: #f7fafc;
-  --card: #ffffff;
-  --text: #0f172a;
-  --muted: #64748b;
-  --primary: #2563eb;
-  --success: #16a34a;
-  --danger: #dc2626;
-  --warning: #f59e0b;
-  --border: #e6eef8;
-  --radius: 12px;
-  --shadow: 0 6px 18px rgba(16, 24, 40, 0.06);
-}
-
-/* ================= CONTAINER ================= */
+/* ================================
+   PAGE BASE
+================================ */
 .applications-container {
-  max-width: 1100px;
-  margin: 28px auto;
-  padding: 24px;
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  background: var(--bg);
-  color: var(--text);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 16px 60px;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  background: #fafafa;
+  color: #111827;
 }
 
-/* ================= HEADINGS ================= */
-.applications-container h2 {
-  font-size: 22px;
-  margin-bottom: 18px;
-  font-weight: 700;
+h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
 }
 
-/* ================= GRID ================= */
+/* ================================
+   GRID → LIST (IMPORTANT CHANGE)
+================================ */
 .apps-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 18px;
-}
-
-/* ================= CARD ================= */
-.application-card {
-  background: var(--card);
-  border-radius: var(--radius);
-  padding: 16px;
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
   gap: 10px;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* ================================
+   ROW STYLE (APPLICATION + INTERVIEW)
+================================ */
+.application-card {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid #e5e7eb;
+  transition: background 0.15s ease;
 }
 
 .application-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 26px rgba(16, 24, 40, 0.08);
+  background: #f9fafb;
 }
 
+/* ================================
+   ROW HEADER (NAME + STATUS)
+================================ */
 .card-head {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.application-card h3 {
-  margin: 0;
-  font-size: 16px;
+.card-head h3 {
+  font-size: 14px;
   font-weight: 600;
+  margin: 0;
 }
 
-/* ================= STATUS BADGES ================= */
+/* ================================
+   STATUS PILL (ATS STYLE)
+================================ */
 .status {
   font-size: 12px;
-  padding: 6px 12px;
-  border-radius: 999px;
   font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 999px;
   text-transform: capitalize;
-  color: #fff;
+}
+
+.status.pending {
+  background: #fff7ed;
+  color: #9a3412;
 }
 
 .status.accepted {
-  background: var(--success);
+  background: #dcfce7;
+  color: #166534;
 }
 
 .status.rejected {
-  background: var(--danger);
+  background: #fee2e2;
+  color: #991b1b;
 }
 
-.status.pending,
-.status.interview {
-  background: var(--warning);
+/* ================================
+   META TEXT (DATE / MODE / LOCATION)
+================================ */
+.application-card p {
+  margin: 0;
+  font-size: 13px;
+  color: #374151;
 }
 
-/* ================= ADMIN MESSAGE ================= */
+/* ================================
+   HR MESSAGE (SUBTLE, REAL LIFE)
+================================ */
 .admin-message {
-  background: #f0f9ff;
-  border-left: 4px solid var(--primary);
-  padding: 10px 12px;
-  border-radius: 8px;
+  background: #f1f8ff;
+  border-left: 4px solid #3b82f6;
+  padding: 8px 12px;
+  border-radius: 6px;
   font-size: 13px;
 }
 
 .admin-message strong {
-  display: block;
-  margin-bottom: 4px;
-}
-
-.admin-message div {
-  color: var(--muted);
-  white-space: pre-wrap;
-}
-
-/* ================= MUTED ================= */
-.muted {
-  color: var(--muted);
-  font-size: 14px;
-}
-
-/* ================= NOTIFICATION BADGE ================= */
-.notif-badge {
-  margin-left: 8px;
-  background: var(--danger);
-  color: #fff;
+  font-weight: 600;
   font-size: 12px;
-  padding: 4px 8px;
-  border-radius: 999px;
-  font-weight: 700;
 }
 
-/* ================= INTERVIEW CARD ================= */
-.interview-card p {
-  font-size: 14px;
-  color: var(--muted);
-  margin: 4px 0;
-}
-
-/* ================= TIMELINE ================= */
+/* ================================
+   TIMELINE → TAGS (ATS STYLE)
+================================ */
 .timeline {
   display: flex;
-  gap: 8px;
-  margin-top: 10px;
-  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
 }
 
 .timeline span {
-  font-size: 12px;
+  font-size: 11px;
   padding: 4px 10px;
   border-radius: 999px;
   background: #e5e7eb;
-  color: #6b7280;
-  font-weight: 600;
+  color: #374151;
 }
 
 .timeline .done {
-  background: var(--success);
-  color: #fff;
+  background: #2563eb;
+  color: #ffffff;
 }
 
-/* ================= MODAL BACKDROP ================= */
+/* ================================
+   INTERVIEW CARD HIGHLIGHT
+================================ */
+.interview-card {
+  border-left: 4px solid #2563eb;
+}
+
+/* ================================
+   NOTIFICATION BADGE
+================================ */
+.notif-badge {
+  margin-left: 8px;
+  background: #ef4444;
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+
+/* ================================
+   MODAL (CLEAN ATS)
+================================ */
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(2, 6, 23, 0.6);
+  background: rgba(0, 0, 0, 0.45);
   display: flex;
-  justify-content: center;
   align-items: center;
-  z-index: 999;
+  justify-content: center;
+  z-index: 1000;
 }
 
-/* ================= MODAL ================= */
 .modal {
-  background: var(--card);
+  background: #ffffff;
   width: 420px;
   max-width: 95%;
+  border-radius: 12px;
   padding: 20px;
-  border-radius: 14px;
-  box-shadow: 0 18px 40px rgba(2, 6, 23, 0.25);
-  animation: modalIn 0.15s ease;
-}
-
-@keyframes modalIn {
-  from {
-    opacity: 0;
-    transform: scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
 }
 
 .modal h3 {
-  margin-top: 0;
-  margin-bottom: 14px;
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
 }
 
-/* ================= INPUTS ================= */
-.modal input[type="datetime-local"],
+.modal input,
 .modal textarea {
   width: 100%;
-  padding: 10px 12px;
-  border-radius: 10px;
-  border: 1px solid var(--border);
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  margin-bottom: 10px;
   font-size: 14px;
-  margin-bottom: 12px;
-  font-family: inherit;
 }
 
-.modal textarea {
-  min-height: 90px;
-  resize: vertical;
-}
-
-.modal input:focus,
-.modal textarea:focus {
-  outline: none;
-  border-color: var(--primary);
-}
-
-/* ================= MODAL ACTIONS ================= */
 .modal-actions {
   display: flex;
   justify-content: flex-end;
@@ -225,42 +195,18 @@
 }
 
 .modal-actions button {
-  padding: 8px 16px;
-  border-radius: 10px;
+  padding: 7px 14px;
+  border-radius: 8px;
   border: none;
-  font-weight: 600;
+  font-size: 14px;
   cursor: pointer;
 }
 
-.modal-actions button:first-child {
-  background: var(--primary);
-  color: #fff;
+.modal-actions button:not(.secondary) {
+  background: #2563eb;
+  color: white;
 }
 
-.modal-actions button.secondary {
+.modal-actions .secondary {
   background: #e5e7eb;
-  color: var(--text);
-}
-
-.modal-actions button:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
-/* ================= LOADING ================= */
-.loading {
-  text-align: center;
-  font-size: 16px;
-  color: var(--muted);
-}
-
-/* ================= RESPONSIVE ================= */
-@media (max-width: 700px) {
-  .apps-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .modal {
-    width: 95%;
-  }
 }

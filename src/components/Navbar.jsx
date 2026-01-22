@@ -2,13 +2,22 @@ import React, { useEffect, useState, useCallback } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import "./Navbar.css";
 
+/* ================= CONFIG ================= */
 const NAV_STACK_KEY = "nav_stack";
 const MAX_STACK_LENGTH = 50;
 const SKIP_WHEN_LOGGED_IN = ["/login"];
 
+/* 👇 USER DASHBOARD PATHS (NAVBAR HIDE HERE) */
+const HIDE_NAVBAR_PATHS = ["/user"];
+
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
+  /* ================= HIDE NAVBAR FOR USER DASHBOARD ================= */
+  if (HIDE_NAVBAR_PATHS.some((path) => location.pathname.startsWith(path))) {
+    return null; // ❌ Navbar hidden on /user/*
+  }
 
   /* ================= AUTH STATE ================= */
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("access"));
@@ -133,7 +142,8 @@ const Navbar = () => {
   };
 
   const isActive = (path) =>
-    location.pathname === path || location.pathname.startsWith(path + "/");
+    location.pathname === path ||
+    location.pathname.startsWith(path + "/");
 
   /* ================= UI ================= */
   return (
@@ -153,7 +163,7 @@ const Navbar = () => {
           Home
         </Link>
 
-        {/* ✅ EMPLOYER REGISTER LINK */}
+        {/* EMPLOYER REGISTER */}
         {!isLoggedIn && (
           <Link
             to="/employer/register"

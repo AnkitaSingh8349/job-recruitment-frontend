@@ -1,0 +1,146 @@
+/* ROOT */
+.user-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: 72px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* LEFT */
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2563eb;
+  margin-right: 10px;
+}
+
+/* BUTTONS */
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #f3f4f6;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 15px;
+  cursor: pointer;
+  color: #111827;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.nav-btn:hover {
+  background: #2563eb;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* NAV LINKS */
+.nav-links a {
+  margin: 0 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #374151;
+  text-decoration: none;
+  padding: 6px 4px;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0%;
+  height: 3px;
+  background: #2563eb;
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #2563eb;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+.nav-links a.active {
+  color: #2563eb;
+}
+
+.nav-links a.active::after {
+  width: 100%;
+}
+
+/* SEARCH */
+.nav-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f9fafb;
+  border: 1px solid #d1d5db;
+  padding: 8px 14px;
+  border-radius: 12px;
+  width: 320px;
+  transition: border 0.2s ease;
+}
+
+.nav-search:focus-within {
+  border-color: #2563eb;
+}
+
+.nav-search input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 15px;
+  background: transparent;
+}
+
+/* RIGHT */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.username {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.logout-btn:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+}

@@ -1,11 +1,13 @@
 import { Outlet } from "react-router-dom";
-import Navbar from "../components/Navbar";
+import UserNavbar from "../pages/user/components/UserNavbar";
 
 function UserLayout() {
   return (
     <>
-      <Navbar />
-      <Outlet />
+      <UserNavbar />
+      <main style={{ padding: "24px" }}>
+        <Outlet />
+      </main>
     </>
   );
 }
