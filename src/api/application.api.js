@@ -105,8 +105,7 @@
 //   }
 // }
 // src/services/applicationApi.js
-import apiBase from "../services/apiBase";
-
+import apiBase from "./apiBase";
 export async function applyJob(data) {
   const res = await apiBase.post("/applications/", data);
   return res.data;
